@@ -1,0 +1,72 @@
+<div class="row">
+	<center>
+	{{!-- handle bars to insert into main.handlebars LEFT COL--}}
+		<div class="col-md-6">
+			<h4 class="title">Burgers to eat!</h4>
+
+			<div id="burgers_to_eat">
+				
+				{{#each burger}}
+					{{#unless devoured}}
+
+					<form action="/burger/{{this.id}}?_method=PUT" method="POST">	
+						<div class="input-group">
+							<li class="form-control">{{id}}. {{burger_name}}</li>
+								<span class="input-group-btn">
+									<button class="btn btn-success devour-button" type="submit">DEVOUR!</button>
+								</span>
+						</div>
+					</form>
+					{{/unless}}
+				{{/each}}
+
+	{{!-- handlebars to insert into main.handlebars RIGHT COL --}}
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<h4 class="title">Eaten Burgers</h4>
+				<div class="eat_burger">
+					
+					{{#each burger}}
+						{{#if this.devoured}}
+
+						<form action="/burger_reorder/{{this.id}}?_method=PUT" method="POST">
+							<div class="input-group">
+								<li class="form-control">{{id}}. {{burger_name}}</li>
+								<span class="input-group-btn">
+									<button class="btn btn-info fresh-button" type="submit">re-order</button>
+								</span>
+							</div>
+						</form>
+						{{/if}}
+					{{/each}}
+				</div>
+		</div>
+
+		<br><br>
+			<h2>Order an other Burger!</h2>
+
+			<form action="/api/" method="POST">
+
+				<div class="row">
+					<div class="col-md-3"></div>
+
+					<div class="form-group col-md-6">
+						<center><label for="new_burger" class="burgerName_placement">Add a new burger to order!</label>
+
+						<input type="text" name="burger_name" class="form-control">
+					</div>
+
+					<div class="col-md-3"></div>
+				</div>
+
+				{{!-- submit button --}}
+				<center>
+					<button id="submit-button" type="submit" class="btn btn-danger">Place Order!</button>
+				</center>
+			</form>
+
+
+	</center>
+</div>
