@@ -1,29 +1,44 @@
-//CALL THE O.R.M FUNCTIONS USING BURGER SPECIFIC INPUT FOR THE O.R.M.
+const orm = require("../config/orm");
 
-var orm = require('../config/orm.js');
+function Burger(name) {
+    this.name = name;
+    this.devoured = false;
+}
 
-var burgers = {
-	all: function (cb) {
-		orm.all('burger', function (res) {
-			cb(res);
-		});
-	},
-	//COLS AND VALS ARE ARRAYS	
-	create: function(cols, vals, cb) {
-		orm.create('burger', cols, vals, function (res){
-			cb(res);
-		});
-	},
-	devour: function (objColVals, condition, cb) {
-		orm.devour('burger', objColVals, condition, function (res) {
-			cb(res);
-		})
-	},
-	clear: function (condition, cb) {
-		orm.clear('burger', condition, function (res) {
-			cb(res);
-		});
-	}
+Burger.selectBurgers = function () {
+    return new Promise((resolve, reject) => {
+        orm.selectAll("BURGERS").then(results => {
+            resolve(results);
+        }).catch(() => {
+            reject("Could not retrieve burgers");
+        });
+    });
 };
 
-module.exports = burgers;	
+Burger.create = function (burger) {
+    return new Promise((resolve, reject) => {
+        orm.insertOne("BURGERS", {
+            burger_name: burger.name,
+            devoured: burger.devoured
+        }).then(results => {
+            // Get db generated ID
+            burger.id = results.insertId;
+            resolve(burger.id);
+        }).catch(() => {
+            reject("Could not add burger");
+        });
+    });
+};
+
+Burger.updateDevoured = function (burgerId) {
+    return new Promise((resolve, reject) => {
+        orm.updateOne("BURGERS", "DEVOURED", true, "ID", burgerId).then(results => {
+            resolve(results);
+        }).catch(() => {
+            reject("Could not update burger");
+        });
+    })
+};
+
+
+module.exports = Burger;
