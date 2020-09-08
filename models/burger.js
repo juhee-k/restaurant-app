@@ -24,7 +24,8 @@ Burger.create = function (burger) {
             // Get db generated ID
             burger.id = results.insertId;
             resolve(burger.id);
-        }).catch(() => {
+        }).catch(err => {
+            console.log("ERROR IN MODEL ", err)
             reject("Could not add burger");
         });
     });
