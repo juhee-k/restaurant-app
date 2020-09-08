@@ -14,9 +14,9 @@ const orm = {
         });
     },
     insertOne: function (tableName, obj) {
-        const query = `INSERT INTO ? SET ?`;
+        const query = `INSERT INTO ${tableName} SET ?`;
         return new Promise((resolve, reject) => {
-            connection.query(query, [tableName, obj], (err, results) => {
+            connection.query(query, obj, (err, results) => {
                 if (err) {
                     reject(err);
                 } else {
