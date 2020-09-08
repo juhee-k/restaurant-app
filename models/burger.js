@@ -7,7 +7,7 @@ function Burger(name) {
 
 Burger.selectBurgers = function () {
     return new Promise((resolve, reject) => {
-        orm.selectAll("BURGER").then(results => {
+        orm.selectAll("burger").then(results => {
             resolve(results);
         }).catch(() => {
             reject("Could not retrieve burgers");
@@ -17,7 +17,7 @@ Burger.selectBurgers = function () {
 
 Burger.create = function (burger) {
     return new Promise((resolve, reject) => {
-        orm.insertOne("BURGER", {
+        orm.insertOne("burger", {
             burger_name: burger.name,
             devoured: burger.devoured
         }).then(results => {
@@ -32,7 +32,7 @@ Burger.create = function (burger) {
 
 Burger.updateDevoured = function (burgerId) {
     return new Promise((resolve, reject) => {
-        orm.updateOne("BURGER", "DEVOURED", true, "ID", burgerId).then(results => {
+        orm.updateOne("burger", "devoured", true, "ID", burgerId).then(results => {
             resolve(results);
         }).catch(() => {
             reject("Could not update burger");
